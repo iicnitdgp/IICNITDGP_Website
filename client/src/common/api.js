@@ -37,6 +37,46 @@ const Api={
         url:`${BASE_URL}/webinars`,
         method:"GET"
     },
+    EventFetch:{
+        url:`${BASE_URL}/events`,
+        method:"GET"
+    },
+    EventCreate:{
+        url:`${BASE_URL}/events`,
+        method:"POST"
+    },
+    EventUpdate:{
+        url:`${BASE_URL}/events/:id`,
+        method:"PUT"
+    },
+    EventClose:{
+        url:`${BASE_URL}/events/:id/close`,
+        method:"PATCH"
+    },
+    EventById:{
+        url:`${BASE_URL}/events/:id`,
+        method:"GET"
+    },
+    EventRegistrationSubmit:{
+        url:`${BASE_URL}/events/:eventId/registrations`,
+        method:"POST"
+    },
+    EventRegistrationsByEvent:{
+        url:`${BASE_URL}/events/:eventId/registrations`,
+        method:"GET"
+    },
+    EventRegistrationPublicList:{
+        url:`${BASE_URL}/events/:eventId/registrations/public`,
+        method:"GET"
+    },
+    EventRegistrationApprove:{
+        url:`${BASE_URL}/registrations/:id/approve`,
+        method:"PATCH"
+    },
+    EventRegistrationReject:{
+        url:`${BASE_URL}/registrations/:id/reject`,
+        method:"PATCH"
+    },
     WebsiteVisit:{
         url:`${BASE_URL}/website_count`,
         method:"GET"
@@ -49,7 +89,7 @@ const Api={
         url:`${BASE_URL}/eventregistration`,
         method:"POST"
     },
-    // New webinar/event management endpoints
+    // Webinar/event management endpoints
     WebinarUpdate:{
         url:`${BASE_URL}/webinars/:id`,
         method:"PUT"

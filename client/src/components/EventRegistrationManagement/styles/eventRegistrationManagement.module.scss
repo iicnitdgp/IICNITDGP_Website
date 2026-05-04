@@ -1,0 +1,316 @@
+@import "../../../assets/styles/Global.scss";
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal {
+  background: $bg-color;
+  border-radius: 1rem;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  width: 90vw;
+  max-width: 1000px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $border-color;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid $border-color;
+  background: var(--primary);
+  color: white;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  color: white;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.modalContent {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1rem;
+  padding: 1.5rem;
+  flex: 1;
+  overflow: auto;
+  background: $bg-color;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.eventsPanel {
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+
+  h3 {
+    margin: 0 0 1rem 0;
+    color: $text-color;
+  }
+}
+
+.eventsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.eventItem {
+  padding: 0.75rem;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.05);
+
+  &:hover {
+    border-color: var(--primary);
+    background-color: rgba(var(--primary-rgb), 0.1);
+  }
+
+  &.active {
+    background-color: var(--primary);
+    color: white;
+    border-color: var(--primary);
+
+    h4, p {
+      color: white;
+    }
+
+    .status {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+  }
+
+  h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.95rem;
+    color: $text-color;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.7;
+    color: $text-color;
+  }
+
+  .status {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    margin-top: 0.25rem;
+    color: $text-color;
+  }
+}
+
+.registrationsPanel {
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.02);
+
+  h3 {
+    margin: 0 0 1rem 0;
+    color: $text-color;
+  }
+}
+
+.placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: $text-color;
+  opacity: 0.5;
+  text-align: center;
+}
+
+.registrationsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.registrationItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem;
+  border: 1px solid $border-color;
+  border-radius: 6px;
+  gap: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+}
+
+.registrationInfo {
+  flex: 1;
+  color: $text-color;
+
+  h4 {
+    margin: 0 0 0.5rem 0;
+    color: $text-color;
+  }
+
+  p {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+    color: $text-color;
+  }
+
+  .status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    font-weight: 500;
+
+    &.pending {
+      background-color: rgba(255, 193, 7, 0.2);
+      color: #ffc107;
+    }
+
+    &.approved {
+      background-color: rgba(76, 175, 80, 0.2);
+      color: #4caf50;
+    }
+
+    &.rejected {
+      background-color: rgba(244, 67, 54, 0.2);
+      color: #f44336;
+    }
+  }
+}
+
+.participants {
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid $border-color;
+  font-size: 0.85rem;
+
+  div {
+    margin: 0.25rem 0;
+    color: rgba($text-color, 0.7);
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.approveBtn, .rejectBtn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.approveBtn {
+  background-color: #4caf50;
+  color: white;
+
+  &:hover {
+    background-color: #45a049;
+  }
+}
+
+.rejectBtn {
+  background-color: #f44336;
+  color: white;
+
+  &:hover {
+    background-color: #da190b;
+  }
+}
+
+.participantCard {
+  border: 1px solid $border-color;
+  border-radius: 8px;
+  padding: 0.75rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  box-shadow: 0 6px 18px rgba(2,6,23,0.15);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.participantField {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  color: $text-color;
+
+  .label {
+    font-weight: 600;
+    font-size: 0.8rem;
+    color: rgba($text-color, 0.8);
+    margin-bottom: 0.25rem;
+  }
+
+  .value {
+    color: rgba($text-color, 0.95);
+    word-break: break-word;
+  }
+}

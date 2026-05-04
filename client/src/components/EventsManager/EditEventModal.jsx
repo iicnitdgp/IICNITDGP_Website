@@ -11,6 +11,7 @@ const EditEventModal = ({ isOpen, onClose, event, onEventEdited }) => {
   const [formData, setFormData] = useState({
     name: '',
     details: '',
+    rules: '',
     photo: '',
     date: '',
     time: '',
@@ -56,6 +57,7 @@ const EditEventModal = ({ isOpen, onClose, event, onEventEdited }) => {
       setFormData({
         name: event.name || '',
         details: event.details || '',
+        rules: event.rules || '',
         photo: event.photo || '',
         date: formattedDate,
         time: event.time || '',
@@ -193,6 +195,18 @@ const EditEventModal = ({ isOpen, onClose, event, onEventEdited }) => {
               onChange={handleInputChange}
               rows="4"
               required
+            />
+          </div>
+
+          <div className={styles.formGroup}>
+            <label htmlFor="rules">Rules (Optional)</label>
+            <textarea
+              id="rules"
+              name="rules"
+              value={formData.rules}
+              onChange={handleInputChange}
+              rows="3"
+              placeholder="Event rules and guidelines"
             />
           </div>
 
