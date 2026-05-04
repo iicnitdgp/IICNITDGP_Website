@@ -22,6 +22,14 @@ const EventRegistrationUpload = ({ isOpen, onClose, onEventCreated }) => {
     { fieldName: 'phone', label: 'Phone', type: 'text', required: true },
   ]);
   const [newField, setNewField] = useState({ fieldName: '', label: '', type: 'text', required: true });
+  const [selectedPreset, setSelectedPreset] = useState('');
+
+  const presetFields = [
+    { fieldName: 'collegeName', label: 'Institution / College Name', type: 'text', required: true },
+    { fieldName: 'cityState', label: 'City & State', type: 'text', required: true },
+    { fieldName: 'courseBranch', label: 'Course / Branch', type: 'text', required: true },
+    { fieldName: 'yearOfStudy', label: 'Year of Study', type: 'text', required: true },
+  ];
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -274,44 +282,74 @@ const EventRegistrationUpload = ({ isOpen, onClose, onEventCreated }) => {
 
             {/* Add New Field */}
             <div className={styles.addFieldSection}>
-              <h4>Add New Field</h4>
-              <div className={styles.fieldRow}>
-                <input
-                  type="text"
-                  placeholder="Field name (e.g., collegeName)"
-                  value={newField.fieldName}
-                  onChange={(e) =>
-                    setNewField({ ...newField, fieldName: e.target.value })
-                  }
-                />
-                <input
-                  type="text"
-                  placeholder="Field label (e.g., College Name)"
-                  value={newField.label}
-                  onChange={(e) =>
-                    setNewField({ ...newField, label: e.target.value })
-                  }
-                />
-                <select
-                  value={newField.type}
-                  onChange={(e) =>
-                    setNewField({ ...newField, type: e.target.value })
-                  }
-                >
-                  <option value="text">Text</option>
-                  <option value="email">Email</option>
-                  <option value="phone">Phone</option>
-                  <option value="number">Number</option>
-                  <option value="textarea">Textarea</option>
-                </select>
-                <button
-                  type="button"
-                  className={styles.addFieldBtn}
-                  onClick={handleAddField}
-                >
-                  Add Field
-                </button>
-              </div>
+                <h4>Add New Field</h4>
+                <div className={styles.fieldRow}>
+                  <input
+                    type="text"
+                    placeholder="Field name (e.g., collegeName)"
+                    value={newField.fieldName}
+                    onChange={(e) =>
+                      setNewField({ ...newField, fieldName: e.target.value })
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="Field label (e.g., College Name)"
+                    value={newField.label}
+                    onChange={(e) =>
+                      setNewField({ ...newField, label: e.target.value })
+                    }
+                  />
+                  <select
+                    value={newField.type}
+                    onChange={(e) =>
+                      setNewField({ ...newField, type: e.target.value })
+                    }
+                  >
+                    <option value="text">Text</option>
+                    <option value="email">Email</option>
+                    <option value="phone">Phone</option>
+                    <option value="number">Number</option>
+                    <option value="textarea">Textarea</option>
+                  </select>
+                  <button
+                    type="button"
+                    className={styles.addFieldBtn}
+                    onClick={handleAddField}
+                  >
+                    Add Field
+                  </button>
+                </div>
+
+                <div style={{ marginTop: 12 }}>
+                  <label style={{ display: 'block', marginBottom: 6 }}>Quick add common fields</label>
+                  <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                    <select value={selectedPreset} onChange={(e) => setSelectedPreset(e.target.value)} style={{ padding: '8px', borderRadius: 6 }}>
+                      <option value="">-- Select a field --</option>
+                      {presetFields.map((p) => (
+                        <option key={p.fieldName} value={p.fieldName}>{p.label}</option>
+                      ))}
+                    </select>
+                    <button
+                      type="button"
+                      className={styles.addFieldBtn}
+                      onClick={() => {
+                        if (!selectedPreset) return;
+                        const preset = presetFields.find((p) => p.fieldName === selectedPreset);
+                        if (!preset) return;
+                        if (requiredFields.some((f) => f.fieldName === preset.fieldName)) {
+                          setError('Field already exists');
+                          return;
+                        }
+                        setRequiredFields([...requiredFields, preset]);
+                        setSelectedPreset('');
+                        setError('');
+                      }}
+                    >
+                      Add Common Field
+                    </button>
+                  </div>
+                </div>
             </div>
           </div>
 
