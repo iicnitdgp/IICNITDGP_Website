@@ -15,6 +15,7 @@ import Collaboration from '../pages/Collaboration/Collaboration.jsx';
 import Ai2Summit from '../pages/Ai2Summit/Ai2Summit.jsx'
 import Hackathon from '../pages/Hackathon/Hackathon.jsx';
 import Audition from '../components/Audition/audition.jsx';
+import EventRegistrationPage from '../pages/EventRegistration/EventRegistration.jsx';
 import ScrollToTop from '../helper/ScrollToTop';
 
 const router = createBrowserRouter([
@@ -74,6 +75,10 @@ const router = createBrowserRouter([
             {
                 path: '/audition',
                 element: <Audition />
+            },
+            {
+                path: '/event/registration/:eventId',
+                element: <EventRegistrationPage />
             },
             {
                 path: '*',

@@ -7,6 +7,8 @@ import EditProfileModal from '../../components/EditProfileModal/EditProfileModal
 import AddUserModal from '../../components/AddUserModal/AddUserModal';
 import EventUploadModal from '../../components/EventUploadModal/EventUploadModal';
 import EventsManager from '../../components/EventsManager/EventsManager';
+import EventRegistrationManagement from '../../components/EventRegistrationManagement/EventRegistrationManagement';
+import EventRegistrationUpload from '../../components/EventRegistrationUpload/EventRegistrationUpload';
 import UserManagementModal from '../../components/UserManagementModal/UserManagementModal';
 import InnovationSubmissions from '../../components/InnovationSubmissions/InnovationSubmissions';
 import AuditionManagement from '../../components/AuditionManagement/AuditionManagement';
@@ -31,6 +33,8 @@ const Profile = () => {
   const [isCarouselUploadOpen, setIsCarouselUploadOpen] = useState(false);
   const [isGalleryUploadOpen, setIsGalleryUploadOpen] = useState(false);
   const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false);
+  const [isEventRegistrationManagementOpen, setIsEventRegistrationManagementOpen] = useState(false);
+  const [isEventRegistrationUploadOpen, setIsEventRegistrationUploadOpen] = useState(false);
 
   useEffect(() => {
     // Load user data from localStorage on component mount
@@ -301,6 +305,18 @@ const Profile = () => {
                   Edit Events
                 </button>
                 <button 
+                  className={styles.eventRegistrationButton}
+                  onClick={() => setIsEventRegistrationManagementOpen(true)}
+                >
+                  Manage Registrations
+                </button>
+                <button 
+                  className={styles.createRegistrationEventButton}
+                  onClick={() => setIsEventRegistrationUploadOpen(true)}
+                >
+                  Create Registration Event
+                </button>
+                <button 
                   className={styles.manageUsersButton}
                   onClick={() => setIsUserManagementModalOpen(true)}
                 >
@@ -387,6 +403,16 @@ const Profile = () => {
             isOpen={isGalleryUploadOpen}
             onClose={() => setIsGalleryUploadOpen(false)}
             onImageAdded={handleGalleryImageAdded}
+          />
+
+          <EventRegistrationManagement
+            isOpen={isEventRegistrationManagementOpen}
+            onClose={() => setIsEventRegistrationManagementOpen(false)}
+          />
+
+          <EventRegistrationUpload
+            isOpen={isEventRegistrationUploadOpen}
+            onClose={() => setIsEventRegistrationUploadOpen(false)}
           />
         </>
       )}

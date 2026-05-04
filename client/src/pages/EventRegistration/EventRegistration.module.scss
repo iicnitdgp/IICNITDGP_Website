@@ -1,0 +1,425 @@
+@import "../../assets/styles/Global.scss";
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.headerSection {
+  margin-bottom: 1.5rem;
+
+  .subtitle {
+    text-transform: uppercase;
+    opacity: 0.7;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: $text-color;
+  }
+
+  h1 {
+    margin: 0 0 1rem 0;
+    font-size: 2.2rem;
+    color: #42A5F5;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .description {
+    line-height: 1.7;
+    color: rgba($text-color, 0.9);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+
+    p, li, strong, em {
+      color: inherit;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--primary);
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .rulesSection {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border-left: 4px solid var(--primary);
+    background: rgba(var(--primary-rgb), 0.05);
+    border-radius: 6px;
+
+    h3 {
+      margin: 0 0 0.75rem 0;
+      font-size: 1.1rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .rulesContent {
+      line-height: 1.7;
+      color: rgba($text-color, 0.9);
+      font-size: 0.95rem;
+
+      p, li, strong, em {
+        color: inherit;
+      }
+
+      ol, ul {
+        margin: 0.5rem 0 0.5rem 1.5rem;
+        color: rgba($text-color, 0.9);
+
+        li {
+          margin-bottom: 0.5rem;
+        }
+      }
+    }
+  }
+
+  .meta {
+    margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    font-size: 0.9rem;
+    color: rgba($text-color, 0.7);
+
+    span {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+}
+
+.infoBox {
+  padding: 1rem;
+  border-left: 4px solid;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+  p {
+    margin: 0;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    strong {
+      font-weight: 600;
+    }
+  }
+
+  &.team {
+    border-left-color: #4CAF50;
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.08), rgba(76, 175, 80, 0.03));
+
+    p {
+      color: #81C784;
+    }
+  }
+
+  &.teamLeader {
+    border-left-color: #2196F3;
+    background: linear-gradient(135deg, rgba(33, 150, 243, 0.08), rgba(33, 150, 243, 0.03));
+
+    p {
+      color: #64B5F6;
+    }
+  }
+
+  &.participants {
+    border-left-color: #FF9800;
+    background: linear-gradient(135deg, rgba(255, 152, 0, 0.08), rgba(255, 152, 0, 0.03));
+
+    p {
+      color: #FFB74D;
+    }
+  }
+
+  &.inactive {
+    border-left-color: #F44336;
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.08), rgba(244, 67, 54, 0.03));
+
+    p {
+      color: #EF5350;
+    }
+  }
+}
+
+.formContainer {
+  display: grid;
+  gap: 1.5rem;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid $border-color;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    gap: 1rem;
+  }
+}
+
+.formHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid $border-color;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #42A5F5;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .date {
+    font-size: 0.9rem;
+    color: rgba($text-color, 0.6);
+
+    @media (max-width: 600px) {
+      display: none;
+    }
+  }
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: rgba($text-color, 0.9);
+  }
+
+  input,
+  textarea {
+    padding: 0.75rem;
+    border: 1px solid $border-color;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    color: $text-color;
+    font-size: 0.95rem;
+    transition: all 0.2s ease;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+    }
+
+    &::placeholder {
+      color: rgba($text-color, 0.5);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+.teamNameGroup {
+  margin-bottom: 0.5rem;
+}
+
+/* Dark boxed input for team name */
+.teamNameGroup input {
+  background: #000;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.participantsSection {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.3);
+  margin-top: 1.5rem;
+
+  .sectionHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    h3 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: rgba($text-color, 0.9);
+    }
+  }
+
+  .addButton {
+    padding: 0.65rem 1rem;
+    background: linear-gradient(90deg, var(--primary), #42A5F5);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 0.85rem;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+}
+
+.participantCard {
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  padding: 1rem 0;
+  margin-bottom: 0;
+  background: transparent;
+  transition: all 0.2s ease;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: transparent;
+    box-shadow: none;
+  }
+}
+
+.inputGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+
+  input {
+    width: 100%;
+  }
+}
+
+/* Make participant inputs match the black boxed team name style */
+.participantCard .inputGrid input {
+  background: #000;
+  border: 1px solid #fff;
+  color: #fff;
+  padding: 0.75rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.removeButton {
+  background: #E53935;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #D32F2F;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.submitButton {
+  padding: 1rem 2rem;
+  background: linear-gradient(90deg, var(--primary), #42A5F5);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  align-self: flex-end;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(var(--primary-rgb), 0.4);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 600px) {
+    width: 100%;
+    align-self: stretch;
+  }
+}
+
+.inactiveBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  background: rgba(244, 67, 54, 0.05);
+  color: #EF5350;
+  font-weight: 500;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.loadingBox,
+.errorBox {
+  padding: 2rem;
+  text-align: center;
+  color: rgba($text-color, 0.7);
+  font-size: 0.95rem;
+}

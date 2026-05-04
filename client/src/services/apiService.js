@@ -239,7 +239,7 @@ class ApiService {
     throw new Error(data.message || 'Failed to delete user');
   }
 
-  // Webinar/Event Management (using Webinar schema)
+  // Webinar/Event Management (using Webinar schema for admin portal)
   async createWebinar(webinarData) {
     const response = await this.request('/webinars', {
       method: 'POST',
@@ -289,8 +289,7 @@ class ApiService {
   }
 
   async getWebinarCategories() {
-    const response = await this.request('/webinars/categories');
-    return response.json();
+    return ['workshop', 'seminar', 'conference', 'webinar', 'hackathon', 'competition', 'other'];
   }
 }
 

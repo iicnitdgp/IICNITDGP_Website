@@ -4,6 +4,8 @@ const router = express.Router();
 const EnquiryController=require('../Controller/Enquiry')
 const IdeaController=require('../Controller/Innovation')
 const WebinarController=require('../Controller/Webinar')
+const EventController=require('../Controller/Event')
+const EventRequestController=require('../Controller/EventRequest')
 const Website_countController=require('../Controller/Website_count')
 const EventRegistrationController=require('../Controller/EventRegistration')
 const CarouselImage=require('../Controller/CarouselImage')
@@ -14,6 +16,7 @@ const Azure=require('../Controller/Azure')
 const authRoutes = require('./auth')
 const UserController = require('../Controller/User')
 const authMiddleware = require('../middleware/auth');
+const optionalAuth = require('../middleware/optionalAuth');
 
 // Authentication routes
 router.use('/auth', authRoutes);
@@ -54,6 +57,20 @@ router.get('/webinars/categories', WebinarController.getWebinarCategories);
 router.get('/webinars/:id', WebinarController.getWebinarById);
 router.put('/webinars/:id', authMiddleware, WebinarController.updateWebinar);
 router.delete('/webinars/:id', authMiddleware, WebinarController.deleteWebinar);
+
+// Dedicated event module
+router.get('/events', optionalAuth, EventController.getEvents);
+router.post('/events', authMiddleware, EventController.createEvent);
+router.get('/events/:id', optionalAuth, EventController.getEventById);
+router.put('/events/:id', authMiddleware, EventController.updateEvent);
+router.patch('/events/:id/close', authMiddleware, EventController.closeEvent);
+router.get('/events/:id/registrations', authMiddleware, EventController.getEventRegistrations);
+
+router.post('/events/:eventId/registrations', EventRequestController.submitRegistration);
+router.get('/events/:eventId/registrations/public', EventRequestController.getEventPublicRegistrations);
+router.get('/registrations/:id', authMiddleware, EventRequestController.getRegistrationById);
+router.patch('/registrations/:id/approve', authMiddleware, EventRequestController.approveRegistration);
+router.patch('/registrations/:id/reject', authMiddleware, EventRequestController.rejectRegistration);
 
 // Legacy routes
 router.post("/enquirysubmission",EnquiryController.sendEnquiry);
