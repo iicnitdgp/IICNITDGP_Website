@@ -1,26 +1,7 @@
 const mongoose = require('mongoose');
 
-const ParticipantSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      trim: true,
-      lowercase: true,
-    },
-    phone: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-  },
-  { _id: false }
-);
+// Participants may contain arbitrary fields (admin-defined). Use Mixed to preserve them.
+// We keep basic validation (at least one participant) in the schema and controller.
 
 const EventRequestSchema = new mongoose.Schema(
   {
@@ -41,7 +22,7 @@ const EventRequestSchema = new mongoose.Schema(
       trim: true,
     },
     participants: {
-      type: [ParticipantSchema],
+      type: [mongoose.Schema.Types.Mixed],
       validate: {
         validator: function (value) {
           return Array.isArray(value) && value.length > 0;
