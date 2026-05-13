@@ -66,6 +66,7 @@
 
 
 import React, { useState, useEffect } from 'react';
+import * as XLSX from 'xlsx';
 import EventCard from './../../component/ReadMore/readmore';
 import styles from './styles/events.module.scss';
 import GradientText from '../../component/Core/TextStyle';
@@ -177,6 +178,30 @@ const NewsEvent = () => {
         } else {
             return { status: 'Completed', className: styles.statusCompleted };
         }
+    };
+
+    const handleDownloadEvent = (event) => {
+        const eventData = [
+            {
+                "Event Name": event.name || "N/A",
+                "Category": event.category || "webinar",
+                "Date": formatDate(event.date) || "N/A",
+                "Time": event.time || "N/A",
+                "Location": event.location || "Online",
+                "Registration Deadline": event.registrationDeadline ? formatDate(event.registrationDeadline) : "N/A",
+                "Max Participants": event.maxParticipants || "N/A",
+                "Contact Email": event.contactEmail || "N/A",
+                "Contact Phone": event.contactPhone || "N/A",
+                "Details": event.details || "N/A"
+            }
+        ];
+
+        const worksheet = XLSX.utils.json_to_sheet(eventData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Event Details");
+        
+        const safeName = (event.name || "Event").replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        XLSX.writeFile(workbook, `${safeName}_details.xlsx`);
     };
 
     if (loading) return <Loader />;
@@ -293,6 +318,15 @@ const NewsEvent = () => {
                                             </div>
                                         )}
                                     </div>
+                                    
+                                    {filter === 'past' && (
+                                        <button 
+                                            onClick={() => handleDownloadEvent(event)} 
+                                            className={styles.downloadBtn}
+                                        >
+                                            📊 Download Details
+                                        </button>
+                                    )}
                                 </div>
 
                                 <EventCard
