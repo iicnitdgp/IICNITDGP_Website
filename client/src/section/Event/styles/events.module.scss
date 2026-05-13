@@ -140,6 +140,28 @@
     background: var(--primary-dark);
 }
 
+.downloadBtn {
+    background: linear-gradient(90deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.downloadBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .newsContainer {
