@@ -1,6 +1,9 @@
 # All configuration comes from .env.docker at the repo root (client + server
 # secrets in one place). Run with:
-#   docker compose --env-file .env.docker up --build
+#   docker compose --env-file .env.docker up -d --build
+#
+# First-time HTTPS setup on a fresh server: run ./nginx/init-letsencrypt.sh
+# once to bootstrap the Let's Encrypt certificate before nginx can serve 443.
 
 services:
   redis:
@@ -18,8 +21,8 @@ services:
     container_name: iic-server
     env_file:
       - ./.env.docker
-    ports:
-      - "${PORT:-8000}:8000"
+    expose:
+      - "8000"
     volumes:
       - uploads-data:/app/public/uploads
     depends_on:
@@ -33,12 +36,41 @@ services:
         VITE_API_URL: ${VITE_API_URL}
         VITE_BACKEND_URI: ${VITE_BACKEND_URI}
     container_name: iic-client
-    ports:
-      - "5173:80"
+    expose:
+      - "80"
     depends_on:
       - server
     restart: unless-stopped
 
+  nginx:
+    image: nginx:latest
+    container_name: iic-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./nginx/options-ssl-nginx.conf:/etc/nginx/options-ssl-nginx.conf:ro
+      - ./nginx/ssl-dhparams.pem:/etc/nginx/ssl-dhparams.pem:ro
+      - certbot-etc:/etc/letsencrypt
+      - certbot-www:/var/www/certbot
+    depends_on:
+      - client
+      - server
+    restart: unless-stopped
+
+  certbot:
+    image: certbot/certbot
+    container_name: iic-certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-www:/var/www/certbot
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - "trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;"
+
 volumes:
   redis-data:
   uploads-data:
+  certbot-etc:
+  certbot-www:
