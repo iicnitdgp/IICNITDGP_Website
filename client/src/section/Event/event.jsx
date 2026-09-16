@@ -66,6 +66,7 @@
 
 
 import React, { useState, useEffect } from 'react';
+import * as XLSX from 'xlsx';
 import EventCard from './../../component/ReadMore/readmore';
 import styles from './styles/events.module.scss';
 import GradientText from '../../component/Core/TextStyle';
@@ -78,6 +79,8 @@ const NewsEvent = () => {
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('upcoming'); // 'upcoming' or 'past'
     const [error, setError] = useState(null);
+    const [downloadStartDate, setDownloadStartDate] = useState('');
+    const [downloadEndDate, setDownloadEndDate] = useState('');
 
     const fetchNewsData = async () => {
         setLoading(true);
@@ -179,6 +182,64 @@ const NewsEvent = () => {
         }
     };
 
+    const stripHtml = (html) => {
+        if (!html) return "N/A";
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        return doc.body.textContent || "";
+    };
+
+    const handleBulkDownload = () => {
+        if (!downloadStartDate || !downloadEndDate) {
+            alert('Please select both start and end dates.');
+            return;
+        }
+
+        const start = new Date(downloadStartDate);
+        start.setHours(0, 0, 0, 0);
+        const end = new Date(downloadEndDate);
+        end.setHours(23, 59, 59, 999);
+
+        const eventsToDownload = newsList.filter((event) => {
+            let eventDate;
+            try {
+                eventDate = new Date(event.date);
+                if (isNaN(eventDate.getTime())) {
+                    const dateStr = event.date.toString();
+                    eventDate = new Date(dateStr.replace(/(\d+)(st|nd|rd|th)/, '$1'));
+                }
+                eventDate.setHours(0, 0, 0, 0);
+            } catch (error) {
+                return false;
+            }
+            if (isNaN(eventDate.getTime())) return false;
+            return eventDate >= start && eventDate <= end;
+        });
+
+        if (eventsToDownload.length === 0) {
+            alert('No events found in this date range.');
+            return;
+        }
+
+        const eventData = eventsToDownload.map(event => ({
+            "Event Name": event.name || "N/A",
+            "Category": event.category || "webinar",
+            "Date": formatDate(event.date) || "N/A",
+            "Time": event.time || "N/A",
+            "Location": event.location || "Online",
+            "Registration Deadline": event.registrationDeadline ? formatDate(event.registrationDeadline) : "N/A",
+            "Max Participants": event.maxParticipants || "N/A",
+            "Contact Email": event.contactEmail || "N/A",
+            "Contact Phone": event.contactPhone || "N/A",
+            "Details": stripHtml(event.details)
+        }));
+
+        const worksheet = XLSX.utils.json_to_sheet(eventData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Events");
+        
+        XLSX.writeFile(workbook, `events_${downloadStartDate}_to_${downloadEndDate}.xlsx`);
+    };
+
     if (loading) return <Loader />;
     
     if (error) {
@@ -240,6 +301,28 @@ const NewsEvent = () => {
                     }).length})
                 </button>
             </div>
+            
+            <div className={styles.bulkDownloadSection}>
+                <div className={styles.dateInputGroup}>
+                    <label>Start Date</label>
+                    <input 
+                        type="date" 
+                        value={downloadStartDate} 
+                        onChange={(e) => setDownloadStartDate(e.target.value)} 
+                    />
+                </div>
+                <div className={styles.dateInputGroup}>
+                    <label>End Date</label>
+                    <input 
+                        type="date" 
+                        value={downloadEndDate} 
+                        onChange={(e) => setDownloadEndDate(e.target.value)} 
+                    />
+                </div>
+                <button onClick={handleBulkDownload} className={styles.bulkDownloadBtn}>
+                    📊 Download Events
+                </button>
+            </div>
 
             <div className={styles.newsContainer}>
                 {filteredNews.length > 0 ? (
@@ -293,6 +376,7 @@ const NewsEvent = () => {
                                             </div>
                                         )}
                                     </div>
+                                    
                                 </div>
 
                                 <EventCard
