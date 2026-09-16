@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import azureBlobService from '../../services/azureBlobService';
+import uploadService from '../../services/uploadService';
 import apiService from '../../services/apiService';
 import styles from './CarouselImageUpload.module.scss';
 
@@ -43,13 +43,13 @@ const CarouselImageUpload = ({ isOpen, onClose, onImageAdded }) => {
     }
 
     setUploading(true);
-    setUploadProgress('Uploading to Azure Blob Storage...');
+    setUploadProgress('Uploading image...');
 
     try {
-      // Upload to Azure Blob Storage
-      const uploadResult = await azureBlobService.uploadFile(
-        selectedFile, 
-        `carousel-${Date.now()}-${selectedFile.name}`
+      const uploadResult = await uploadService.uploadFile(
+        selectedFile,
+        `carousel-${Date.now()}-${selectedFile.name}`,
+        'carousel'
       );
 
       if (!uploadResult.success) {

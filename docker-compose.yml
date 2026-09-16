@@ -1,0 +1,44 @@
+# All configuration comes from .env.docker at the repo root (client + server
+# secrets in one place). Run with:
+#   docker compose --env-file .env.docker up --build
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: iic-redis
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+
+  server:
+    build:
+      context: ./server
+    container_name: iic-server
+    env_file:
+      - ./.env.docker
+    ports:
+      - "${PORT:-8000}:8000"
+    volumes:
+      - uploads-data:/app/public/uploads
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  client:
+    build:
+      context: ./client
+      args:
+        VITE_API_URL: ${VITE_API_URL}
+        VITE_BACKEND_URI: ${VITE_BACKEND_URI}
+    container_name: iic-client
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  redis-data:
+  uploads-data:

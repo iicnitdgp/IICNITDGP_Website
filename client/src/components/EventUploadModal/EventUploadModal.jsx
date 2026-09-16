@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
-import azureBlobService from '../../services/azureBlobService';
+import uploadService from '../../services/uploadService';
 import apiService from '../../services/apiService';
 import styles from './styles/eventUploadModal.module.scss';
 import GradientText from '../../component/Core/TextStyle';
@@ -88,11 +88,11 @@ const EventUploadModal = ({ isOpen, onClose, onEventAdded }) => {
     try {
       for (let i = 0; i < selectedFiles.length; i++) {
         const file = selectedFiles[i];
-        const fileName = `events/${Date.now()}-${i}-${file.name}`;
-        
+        const fileName = `${Date.now()}-${i}-${file.name}`;
+
         setUploadProgress(((i + 1) / selectedFiles.length) * 100);
-        
-        const uploadResult = await azureBlobService.uploadFile(file, fileName);
+
+        const uploadResult = await uploadService.uploadFile(file, fileName, 'events');
         
         if (uploadResult.success) {
           uploadedUrls.push(uploadResult.url);

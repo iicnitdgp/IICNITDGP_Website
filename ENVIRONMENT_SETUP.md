@@ -49,15 +49,11 @@ VITE_API_BASE_URL=http://localhost:8000/api
 ```
 - **VITE_API_BASE_URL**: Backend API base URL
 
-#### Azure Blob Storage Configuration
+#### Backend URL (used for file uploads)
 ```bash
-VITE_AZURE_STORAGE_ACCOUNT_NAME=your-storage-account-name
-VITE_AZURE_STORAGE_ACCOUNT_KEY=your-storage-account-key
-VITE_AZURE_STORAGE_CONTAINER_NAME=your-container-name
+VITE_BACKEND_URI=http://localhost:8000
 ```
-- **VITE_AZURE_STORAGE_ACCOUNT_NAME**: Azure Storage account name
-- **VITE_AZURE_STORAGE_ACCOUNT_KEY**: Azure Storage account access key
-- **VITE_AZURE_STORAGE_CONTAINER_NAME**: Container name for file uploads (e.g., "uploads")
+- **VITE_BACKEND_URI**: Base URL of the backend server, used to build upload/API requests
 
 ### Optional Variables
 ```bash
@@ -65,30 +61,13 @@ VITE_APP_NAME=IIC NIT Durgapur
 VITE_APP_VERSION=1.0.0
 ```
 
-## Azure Blob Storage Setup
+## File Uploads
 
-To enable file uploads for events/profile photos:
-
-1. **Create Azure Storage Account**:
-   - Go to Azure Portal
-   - Create a new Storage Account
-   - Choose "StorageV2 (general purpose v2)"
-   - Set access tier to "Hot"
-
-2. **Create Container**:
-   - Navigate to your storage account
-   - Go to "Containers" section
-   - Create a new container (e.g., "uploads")
-   - Set public access level to "Blob" (for public read access)
-
-3. **Get Credentials**:
-   - Go to "Access keys" section
-   - Copy the storage account name and key1
-   - Update your client `.env` file with these values
-
-4. **CORS Configuration** (if needed):
-   - Go to "Resource sharing (CORS)" section
-   - Add allowed origins, methods, and headers for your frontend domain
+File uploads (profile photos, CVs, event/gallery/carousel images) are handled entirely by
+the backend and stored on the server's local disk under `server/public/uploads/<type>/`.
+The server serves these files as static assets at `/uploads/<type>/<filename>`, and the
+uploaded file's full URL is stored in MongoDB (same as any other field). No external
+storage account or credentials are required.
 
 ## MongoDB Setup
 
@@ -142,13 +121,13 @@ For production deployment, ensure:
 - Configure proper CORS settings
 - Set up proper logging
 - Use HTTPS for all endpoints
-- Secure Azure Blob Storage access
+- Ensure `server/public/uploads` is persisted (e.g. mounted volume) across deploys
 
 ## Troubleshooting
 
 ### Common Issues:
 1. **MongoDB Connection Failed**: Check connection string and network access
 2. **JWT Token Invalid**: Verify JWT secrets are correctly set
-3. **File Upload Failed**: Check Azure Blob Storage credentials and CORS settings
+3. **File Upload Failed**: Ensure the server can write to `server/public/uploads` and that `VITE_BACKEND_URI` points to the running backend
 4. **CORS Errors**: Verify FRONTEND_URL matches your client URL
 5. **Port Already in Use**: Change PORT in server .env file
