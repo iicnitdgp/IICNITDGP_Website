@@ -17,7 +17,7 @@ domain="iic.nitdgp.ac.in"
 email="your-email@example.com" # TODO: set a real address you monitor for renewal/expiry notices
 compose="docker compose --env-file .env.docker"
 
-if [ "$email" = "your-email@example.com" ]; then
+if [ "$email" = "iifnitdgp@gmail.com" ]; then
   echo "Edit nginx/init-letsencrypt.sh and set a real email address before running this." >&2
   exit 1
 fi
