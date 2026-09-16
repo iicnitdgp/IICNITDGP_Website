@@ -12,7 +12,7 @@ const CarouselImage=require('../Controller/CarouselImage')
 const Gallery=require('../Controller/Gallery')
 const Audition=require('../Controller/audition')
 const AuditionConfig=require('../Controller/AuditionConfig')
-const Azure=require('../Controller/Azure')
+const Upload=require('../Controller/Upload')
 const authRoutes = require('./auth')
 const UserController = require('../Controller/User')
 const authMiddleware = require('../middleware/auth');
@@ -89,8 +89,7 @@ router.post("/audition", Audition.createAudition);
 router.get("/audition", authMiddleware, Audition.getAllAuditions);
 router.put("/audition/:id", authMiddleware, Audition.updateStatus);
 
-// Azure file upload routes
-router.post('/azure/upload', Azure.upload.single('file'), Azure.uploadToAzure);
-router.get('/azure/test', Azure.testAzureConnection);
+// File upload routes (local disk storage)
+router.post('/upload', Upload.upload.single('file'), Upload.uploadFile);
 
 module.exports=router

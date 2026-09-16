@@ -32,7 +32,7 @@ A comprehensive web application for the Innovation and Incubation Cell of Nation
 - **Event Management** - Create, manage, and showcase events
 - **Team Management** - Display team members with dynamic data
 - **Innovation Hub** - Submit and manage innovation ideas
-- **Image Gallery** - Azure Blob Storage integration
+- **Image Gallery** - Local server-side file storage
 - **Newsletter System** - Email subscription and management
 - **Search Functionality** - Global search across all content
 - **Mobile Responsive** - Optimized for all device sizes
@@ -79,7 +79,7 @@ A comprehensive web application for the Innovation and Incubation Cell of Nation
 | **bcryptjs** | 3.0.2 | Password Hashing |
 
 ### Cloud Services
-- **Azure Blob Storage** - Image/File Storage
+- **Local Disk Storage** - Image/File Storage (server/public/uploads)
 - **MongoDB Atlas** - Database Hosting (Optional)
 - **Vercel** - Frontend Deployment
 - **Render/Railway** - Backend Deployment
@@ -113,8 +113,7 @@ IICNITDGP/
 │   └── index.js                # Server Entry Point
 ├── 📄 README.md
 ├── 📄 ENVIRONMENT_SETUP.md      # Environment Configuration
-├── 📄 AUTH_README.md            # Authentication Guide
-└── 📄 AZURE_SETUP.md            # Azure Configuration
+└── 📄 AUTH_README.md            # Authentication Guide
 ```
 
 ## ⚡ Quick Start
@@ -203,13 +202,6 @@ mongod --dbpath /path/to/your/data
 # Update MONGO_URI in .env file
 ```
 
-#### 3. Azure Blob Storage Setup (Optional)
-```bash
-# Create Azure Storage Account
-# Get connection string and container name
-# Update Azure configuration in .env
-```
-
 ## 📧 Environment Configuration
 
 ### Server Environment Variables (.env)
@@ -227,20 +219,13 @@ JWT_REFRESH_EXPIRES_IN=7d
 PORT=8000
 NODE_ENV=development
 FRONTEND_URL=http://localhost:5173
-
-# Azure Blob Storage (Optional)
-AZURE_STORAGE_CONNECTION_STRING=your-azure-connection-string
-AZURE_CONTAINER_NAME=your-container-name
 ```
 
 ### Client Environment Variables (.env)
 ```bash
 # API Configuration
 VITE_API_BASE_URL=http://localhost:8000/api
-
-# Azure Configuration (Optional)
-VITE_AZURE_STORAGE_ACCOUNT=your-storage-account
-VITE_AZURE_CONTAINER=your-container-name
+VITE_BACKEND_URI=http://localhost:8000
 ```
 
 ## 🔐 Authentication System
@@ -310,7 +295,7 @@ PUT  /api/auth/profile      # Update Profile
 - **Gallery Integration**: Showcase successful innovations
 
 ### 🖼️ Gallery System
-- **Azure Integration**: Cloud-based image storage
+- **Local Storage**: Server-side disk-based image storage
 - **Upload Management**: Admin-controlled image uploads
 - **Responsive Grid**: Masonry layout with lightbox viewing
 - **Image Optimization**: Automatic compression and resizing

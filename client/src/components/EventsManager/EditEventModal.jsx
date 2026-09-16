@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import API from '../../common/api';
-import azureBlobService from '../../services/azureBlobService';
+import uploadService from '../../services/uploadService';
 import GradientText from '../../component/Core/TextStyle';
 import styles from './styles/editEventModal.module.scss';
 
@@ -95,15 +95,14 @@ const EditEventModal = ({ isOpen, onClose, event, onEventEdited }) => {
 
   const uploadImage = async (file) => {
     try {
-      // Try Azure Blob Storage first
-      const result = await azureBlobService.uploadFileWithValidation(file);
+      const result = await uploadService.uploadFileWithValidation(file, null, 'events');
       if (result.success && result.url) {
         return result.url;
       } else {
         throw new Error(result.error || 'Upload failed');
       }
     } catch (error) {
-      console.warn('Azure upload failed, using base64 fallback:', error);
+      console.warn('Upload failed, using base64 fallback:', error);
     }
 
     // Fallback to base64

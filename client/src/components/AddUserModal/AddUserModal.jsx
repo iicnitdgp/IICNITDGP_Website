@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-modal';
 import apiService from '../../services/apiService';
-import azureBlobService from '../../services/azureBlobService';
+import uploadService from '../../services/uploadService';
 import styles from './styles/addUserModal.module.scss';
 import GradientText from '../../component/Core/TextStyle';
 
@@ -80,7 +80,7 @@ const AddUserModal = ({ isOpen, onClose, onUserAdded }) => {
     setIsUploading(true);
     try {
       const fileName = `user-${Date.now()}-${selectedFile.name}`;
-      const uploadResult = await azureBlobService.uploadFile(selectedFile, fileName);
+      const uploadResult = await uploadService.uploadFile(selectedFile, fileName, 'profile');
       
       if (uploadResult.success) {
         return uploadResult.url;

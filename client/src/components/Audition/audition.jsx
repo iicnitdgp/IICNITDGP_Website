@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useForm, useFieldArray, useFormContext } from 'react-hook-form';
 import Api from '../../common/api';
-import azureBlobService from '../../services/azureBlobService';
+import uploadService from '../../services/uploadService';
 import styles from './styles/audition.module.scss';
 import { toast } from 'react-toastify';
 
@@ -142,7 +142,7 @@ const Audition = () => {
     let cvUrl = '';
     try {
       if (cvFile) {
-        const uploadResult = await azureBlobService.uploadFile(cvFile);
+        const uploadResult = await uploadService.uploadFile(cvFile, null, 'cv');
         if (uploadResult.success) {
           cvUrl = uploadResult.url;
         } else {

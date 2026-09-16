@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Modal from 'react-modal';
 import { updateUser } from '../../store/slices/authSlice';
 import apiService from '../../services/apiService';
-import azureBlobService from '../../services/azureBlobService';
+import uploadService from '../../services/uploadService';
 import styles from './styles/editProfileModal.module.scss';
 import GradientText from '../../component/Core/TextStyle';
 
@@ -105,13 +105,9 @@ const EditProfileModal = ({ isOpen, onClose }) => {
     setIsUploading(true);
     try {
       const fileName = `profile-${user._id || user.id}-${Date.now()}.${selectedFile.name.split('.').pop()}`;
-      const uploadResult = await azureBlobService.uploadFile(selectedFile, fileName);
-      
+      const uploadResult = await uploadService.uploadFile(selectedFile, fileName, 'profile');
+
       if (uploadResult.success) {
-        // Show message if using fallback method
-        if (uploadResult.message && uploadResult.message.includes('fallback')) {
-          console.info('Using fallback upload method. Configure Azure Blob Storage for cloud storage.');
-        }
         return uploadResult.url;
       } else {
         throw new Error(uploadResult.error || 'Upload failed');
