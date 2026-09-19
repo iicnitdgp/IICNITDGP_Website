@@ -1,0 +1,6 @@
+@import "../../../assets/styles/Global.scss";
+
+// Reuse the profile-editing form styles (modal, photo section, form fields,
+// buttons...) plus the two-column row layout and select styling AddUserModal
+// already builds on top of them.
+@import "../../AddUserModal/styles/addUserModal.module.scss";
