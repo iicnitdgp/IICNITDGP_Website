@@ -76,6 +76,13 @@ const userSchema = new mongoose.Schema({
   lastLogin: {
     type: Date,
     default: Date.now
+  },
+  // Determines display order (e.g. on the /team page). Lower rank is shown first.
+  // Auto-assigned in creation order when not explicitly set, so users added earlier
+  // keep coming first unless an admin manually re-ranks them.
+  rank: {
+    type: Number,
+    default: null
   }
 }, {
   timestamps: true
@@ -84,8 +91,17 @@ const userSchema = new mongoose.Schema({
 // Hash password before saving
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
-  
+
   this.password = await bcrypt.hash(this.password, 12);
+  next();
+});
+
+// Auto-assign rank based on creation order when not explicitly provided
+userSchema.pre('save', async function(next) {
+  if (this.isNew && (this.rank === undefined || this.rank === null)) {
+    const count = await this.constructor.countDocuments();
+    this.rank = count + 1;
+  }
   next();
 });
 

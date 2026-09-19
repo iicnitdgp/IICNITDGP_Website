@@ -94,7 +94,7 @@ exports.createUser = async (req, res) => {
       });
     }
 
-    const { name, email, phone, address, role = 'user', photo, designation, type, extra } = req.body;
+    const { name, email, phone, address, role = 'user', photo, designation, type, extra, rank } = req.body;
 
     // Validate required fields
     if (!name || !email || !phone) {
@@ -129,7 +129,8 @@ exports.createUser = async (req, res) => {
       createdBy: req.user.userId,
       designation,
       type,
-      extra
+      extra,
+      rank: rank !== undefined && rank !== null && rank !== '' ? Number(rank) : undefined
     });
 
     const savedUser = await newUser.save();
@@ -496,7 +497,7 @@ exports.updateUser = async (req, res) => {
     }
 
     const { id } = req.params;
-    const { name, email, phone, address, role, photo, designation, type, extra, isActive } = req.body;
+    const { name, email, phone, address, role, photo, designation, type, extra, isActive, rank } = req.body;
 
     // Check if email is being changed and if it's already taken
     if (email) {
@@ -525,6 +526,7 @@ exports.updateUser = async (req, res) => {
     if (type) updateData.type = type;
     if (extra) updateData.extra = extra;
     if (typeof isActive === 'boolean') updateData.isActive = isActive;
+    if (rank !== undefined && rank !== null && rank !== '') updateData.rank = Number(rank);
 
     // Update user
     const updatedUser = await User.findByIdAndUpdate(
@@ -625,10 +627,11 @@ exports.getTeamMembers = async (req, res) => {
     // Calculate pagination
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
-    // Execute query
+    // Execute query - order by rank first (lower rank shows first), falling back
+    // to createdAt ascending so users added earlier come first when rank ties/unset
     const users = await User.find(query)
-      .select('_id name photo designation type extra isActive')
-      .sort({ createdAt: -1 })
+      .select('_id name photo designation type extra isActive rank')
+      .sort({ rank: 1, createdAt: 1 })
       .skip(skip)
       .limit(parseInt(limit));
 
@@ -674,22 +677,36 @@ exports.getUsersForManagement = async (req, res) => {
       limit = 20,
       search,
       role,
+      status,
+      type,
       sortBy = 'createdAt',
       sortOrder = 'desc'
     } = req.query;
 
     // Build query
     const query = {};
-    
+
     if (search) {
       query.$or = [
         { name: { $regex: search, $options: 'i' } },
         { email: { $regex: search, $options: 'i' } }
       ];
     }
-    
+
     if (role && role !== 'all') {
       query.role = role;
+    }
+
+    // Filter by active / inactive status
+    if (status === 'active') {
+      query.isActive = true;
+    } else if (status === 'inactive') {
+      query.isActive = false;
+    }
+
+    // Filter by designation type (Faculty, Student Council, Student Volunteers, etc.)
+    if (type && type !== 'all') {
+      query.type = type;
     }
 
     // Sort options
@@ -699,9 +716,9 @@ exports.getUsersForManagement = async (req, res) => {
     // Calculate pagination
     const skip = (parseInt(page) - 1) * parseInt(limit);
 
-    // Execute query - only get essential fields for management
+    // Execute query - fields needed for the management table and edit card
     const users = await User.find(query)
-      .select('_id name email phone role isActive createdAt lastLogin')
+      .select('_id name email phone address photo role designation type extra isActive rank createdAt lastLogin')
       .sort(sortOptions)
       .skip(skip)
       .limit(parseInt(limit));
@@ -741,7 +758,7 @@ exports.updateUserManagement = async (req, res) => {
     }
 
     const { id } = req.params;
-    const { name, email, phone, role, isActive } = req.body;
+    const { name, email, phone, address, photo, role, designation, type, extra, isActive, rank } = req.body;
 
     // Validate required fields
     if (!name || !email || !role) {
@@ -753,11 +770,11 @@ exports.updateUserManagement = async (req, res) => {
 
     // Check if email is being changed and if it's already taken
     if (email) {
-      const existingUser = await User.findOne({ 
-        email: email.toLowerCase(), 
-        _id: { $ne: id } 
+      const existingUser = await User.findOne({
+        email: email.toLowerCase(),
+        _id: { $ne: id }
       });
-      
+
       if (existingUser) {
         return res.status(400).json({
           success: false,
@@ -782,13 +799,19 @@ exports.updateUserManagement = async (req, res) => {
       role,
       isActive: typeof isActive === 'boolean' ? isActive : true
     };
+    if (address !== undefined) updateData.address = address;
+    if (photo) updateData.photo = photo;
+    if (designation !== undefined) updateData.designation = designation;
+    if (type) updateData.type = type;
+    if (extra) updateData.extra = extra;
+    if (rank !== undefined && rank !== null && rank !== '') updateData.rank = Number(rank);
 
     // Update user
     const updatedUser = await User.findByIdAndUpdate(
       id,
       updateData,
       { new: true, runValidators: true }
-    ).select('_id name email phone role isActive createdAt lastLogin');
+    ).select('_id name email phone address photo role designation type extra isActive rank createdAt lastLogin');
 
     if (!updatedUser) {
       return res.status(404).json({

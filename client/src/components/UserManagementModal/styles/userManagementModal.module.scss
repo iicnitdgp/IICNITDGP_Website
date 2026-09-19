@@ -76,11 +76,12 @@
 
 .filters {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   padding: 1.5rem 2rem;
   border-bottom: 1px solid $border-color;
   background: rgba(255, 255, 255, 0.02);
-  
+
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -207,6 +208,14 @@
   
   tr:hover {
     background: rgba(255, 255, 255, 0.02);
+  }
+}
+
+.clickableRow {
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(74, 144, 226, 0.06) !important;
   }
 }
 

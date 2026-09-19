@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import apiService from '../../services/apiService';
+import EditUserCard from './EditUserCard';
 import styles from './styles/userManagementModal.module.scss';
 import GradientText from '../../component/Core/TextStyle';
 
 // Set app element for accessibility
 Modal.setAppElement('#root');
+
+const TYPE_OPTIONS = ['Faculty', 'Student Volunteers', 'Student Council', 'Advisor', 'Mentor', 'Other'];
 
 const UserManagementModal = ({ isOpen, onClose }) => {
   const [users, setUsers] = useState([]);
@@ -15,24 +18,27 @@ const UserManagementModal = ({ isOpen, onClose }) => {
   const [editingUser, setEditingUser] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [typeFilter, setTypeFilter] = useState('all');
   const [pagination, setPagination] = useState({
     currentPage: 1,
     totalPages: 1,
     totalUsers: 0
   });
 
-  // Fetch users when modal opens
+  // Fetch users when modal opens or filters change
   useEffect(() => {
     if (isOpen) {
       fetchUsers();
     }
-  }, [isOpen, searchTerm, roleFilter, pagination.currentPage]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, searchTerm, roleFilter, statusFilter, typeFilter, pagination.currentPage]);
 
   const fetchUsers = async () => {
     try {
       setLoading(true);
       setError('');
-      
+
       const params = new URLSearchParams({
         page: pagination.currentPage,
         limit: 10,
@@ -42,6 +48,8 @@ const UserManagementModal = ({ isOpen, onClose }) => {
 
       if (searchTerm) params.append('search', searchTerm);
       if (roleFilter !== 'all') params.append('role', roleFilter);
+      if (statusFilter !== 'all') params.append('status', statusFilter);
+      if (typeFilter !== 'all') params.append('type', typeFilter);
 
       const response = await apiService.request(`/admin/users-management?${params}`);
       const data = await response.json();
@@ -61,58 +69,19 @@ const UserManagementModal = ({ isOpen, onClose }) => {
   };
 
   const handleEditUser = (user) => {
-    setEditingUser({
-      ...user,
-      originalEmail: user.email // Keep track of original email
-    });
+    setEditingUser(user);
     setError('');
     setSuccess('');
   };
 
-  const handleSaveUser = async () => {
-    try {
-      setLoading(true);
-      setError('');
-
-      const response = await apiService.request(`/admin/users-management/${editingUser._id}`, {
-        method: 'PUT',
-        body: JSON.stringify({
-          name: editingUser.name,
-          email: editingUser.email,
-          phone: editingUser.phone,
-          role: editingUser.role,
-          isActive: editingUser.isActive
-        })
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        setSuccess('User updated successfully');
-        setEditingUser(null);
-        fetchUsers(); // Refresh the list
-      } else {
-        setError(data.message || 'Failed to update user');
-      }
-    } catch (error) {
-      console.error('Update user error:', error);
-      setError('Failed to update user');
-    } finally {
-      setLoading(false);
-    }
+  const handleUserSaved = () => {
+    setSuccess('User updated successfully');
+    setEditingUser(null);
+    fetchUsers(); // Refresh the list
   };
 
   const handleCancelEdit = () => {
     setEditingUser(null);
-    setError('');
-    setSuccess('');
-  };
-
-  const handleInputChange = (field, value) => {
-    setEditingUser(prev => ({
-      ...prev,
-      [field]: value
-    }));
   };
 
   const handleSearch = (e) => {
@@ -125,6 +94,16 @@ const UserManagementModal = ({ isOpen, onClose }) => {
     setPagination(prev => ({ ...prev, currentPage: 1 }));
   };
 
+  const handleStatusFilterChange = (e) => {
+    setStatusFilter(e.target.value);
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
+  };
+
+  const handleTypeFilterChange = (e) => {
+    setTypeFilter(e.target.value);
+    setPagination(prev => ({ ...prev, currentPage: 1 }));
+  };
+
   const handlePageChange = (newPage) => {
     setPagination(prev => ({ ...prev, currentPage: newPage }));
   };
@@ -134,6 +113,8 @@ const UserManagementModal = ({ isOpen, onClose }) => {
     setEditingUser(null);
     setSearchTerm('');
     setRoleFilter('all');
+    setStatusFilter('all');
+    setTypeFilter('all');
     setError('');
     setSuccess('');
     setPagination({ currentPage: 1, totalPages: 1, totalUsers: 0 });
@@ -151,7 +132,7 @@ const UserManagementModal = ({ isOpen, onClose }) => {
       <div className={styles.modalContent}>
         <div className={styles.modalHeader}>
           <h2><GradientText text="User Management" /></h2>
-          <button 
+          <button
             className={styles.closeButton}
             onClick={handleClose}
             type="button"
@@ -182,6 +163,29 @@ const UserManagementModal = ({ isOpen, onClose }) => {
               <option value="user">User</option>
             </select>
           </div>
+          <div className={styles.filterContainer}>
+            <select
+              value={statusFilter}
+              onChange={handleStatusFilterChange}
+              className={styles.roleFilter}
+            >
+              <option value="all">All Statuses</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </select>
+          </div>
+          <div className={styles.filterContainer}>
+            <select
+              value={typeFilter}
+              onChange={handleTypeFilterChange}
+              className={styles.roleFilter}
+            >
+              <option value="all">All Designations</option>
+              {TYPE_OPTIONS.map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {/* Messages */}
@@ -206,6 +210,7 @@ const UserManagementModal = ({ isOpen, onClose }) => {
                   <th>Email</th>
                   <th>Phone</th>
                   <th>Role</th>
+                  <th>Designation</th>
                   <th>Status</th>
                   <th>Last Login</th>
                   <th>Actions</th>
@@ -213,106 +218,39 @@ const UserManagementModal = ({ isOpen, onClose }) => {
               </thead>
               <tbody>
                 {users.map(user => (
-                  <tr key={user._id}>
+                  <tr
+                    key={user._id}
+                    onClick={() => handleEditUser(user)}
+                    className={styles.clickableRow}
+                  >
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.phone || 'Not provided'}</td>
                     <td>
-                      {editingUser && editingUser._id === user._id ? (
-                        <input
-                          type="text"
-                          value={editingUser.name}
-                          onChange={(e) => handleInputChange('name', e.target.value)}
-                          className={styles.editInput}
-                        />
-                      ) : (
-                        user.name
-                      )}
+                      <span className={user.role === 'admin' ? styles.adminRole : styles.userRole}>
+                        {user.role}
+                      </span>
                     </td>
+                    <td>{user.designation || user.type || 'Not set'}</td>
                     <td>
-                      {editingUser && editingUser._id === user._id ? (
-                        <input
-                          type="email"
-                          value={editingUser.email}
-                          onChange={(e) => handleInputChange('email', e.target.value)}
-                          className={styles.editInput}
-                        />
-                      ) : (
-                        user.email
-                      )}
-                    </td>
-                    <td>
-                      {editingUser && editingUser._id === user._id ? (
-                        <input
-                          type="tel"
-                          value={editingUser.phone || ''}
-                          onChange={(e) => handleInputChange('phone', e.target.value)}
-                          className={styles.editInput}
-                          placeholder="Phone number"
-                        />
-                      ) : (
-                        user.phone || 'Not provided'
-                      )}
-                    </td>
-                    <td>
-                      {editingUser && editingUser._id === user._id ? (
-                        <select
-                          value={editingUser.role}
-                          onChange={(e) => handleInputChange('role', e.target.value)}
-                          className={styles.editSelect}
-                        >
-                          <option value="user">User</option>
-                          <option value="admin">Admin</option>
-                        </select>
-                      ) : (
-                        <span className={user.role === 'admin' ? styles.adminRole : styles.userRole}>
-                          {user.role}
-                        </span>
-                      )}
-                    </td>
-                    <td>
-                      {editingUser && editingUser._id === user._id ? (
-                        <select
-                          value={editingUser.isActive}
-                          onChange={(e) => handleInputChange('isActive', e.target.value === 'true')}
-                          className={styles.editSelect}
-                        >
-                          <option value="true">Active</option>
-                          <option value="false">Inactive</option>
-                        </select>
-                      ) : (
-                        <span className={user.isActive ? styles.statusActive : styles.statusInactive}>
-                          {user.isActive ? 'Active' : 'Inactive'}
-                        </span>
-                      )}
+                      <span className={user.isActive ? styles.statusActive : styles.statusInactive}>
+                        {user.isActive ? 'Active' : 'Inactive'}
+                      </span>
                     </td>
                     <td>
                       {user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : 'Never'}
                     </td>
                     <td>
-                      {editingUser && editingUser._id === user._id ? (
-                        <div className={styles.editActions}>
-                          <button
-                            onClick={handleSaveUser}
-                            className={styles.saveButton}
-                            disabled={loading}
-                          >
-                            Save
-                          </button>
-                          <button
-                            onClick={handleCancelEdit}
-                            className={styles.cancelButton}
-                            disabled={loading}
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      ) : (
-                        <button
-                          onClick={() => handleEditUser(user)}
-                          className={styles.editButton}
-                          disabled={loading}
-                        >
-                          Edit
-                        </button>
-                      )}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleEditUser(user);
+                        }}
+                        className={styles.editButton}
+                        disabled={loading}
+                      >
+                        Edit
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -353,6 +291,14 @@ const UserManagementModal = ({ isOpen, onClose }) => {
           </button>
         </div>
       </div>
+
+      {/* Edit card - opens when a user row/edit button is clicked */}
+      <EditUserCard
+        isOpen={!!editingUser}
+        user={editingUser}
+        onClose={handleCancelEdit}
+        onSaved={handleUserSaved}
+      />
     </Modal>
   );
 };
