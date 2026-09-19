@@ -1,0 +1,136 @@
+{
+  "focusAreas": [
+    {
+      "title": "Smart Energy Systems & Decarbonization",
+      "areas": [
+        "Smart grids, microgrids, and distributed energy",
+        "Renewable energy integration and storage",
+        "Hydrogen and clean fuels",
+        "Energy analytics and predictive maintenance"
+      ],
+      "linkages": [
+        "Damodar Valley Corporation (DVC)",
+        "Durgapur Projects Limited (DPL)",
+        "NTPC",
+        "IOCL Haldia",
+        "Exide Industries (Kolkata)",
+        "L&T Energy"
+      ]
+    },
+    {
+      "title": "Environment, Water & Climate Resilience",
+      "areas": [
+        "Water treatment and industrial sustainability",
+        "Pollution sensing and environmental intelligence",
+        "Waste-to-resource technologies",
+        "Climate resilience and circular economy",
+        "Corrosion Protection"
+      ],
+      "linkages": [
+        "KMDA",
+        "DVC Water Systems",
+        "Coal India / ECL",
+        "Damodar Industrial Clusters",
+        "National Jute Board",
+        "Environmental and infrastructure agencies"
+      ]
+    },
+    {
+      "title": "Advanced Materials & Sustainable Manufacturing",
+      "areas": [
+        "Advanced materials and nanomaterials",
+        "Green metallurgy and circular materials",
+        "Batteries, semiconductors and smart materials",
+        "Sustainable manufacturing technologies"
+      ],
+      "linkages": [
+        "SAIL – Durgapur Steel Plant",
+        "Alloy Steel Plant",
+        "Graphite India",
+        "Hindustan Cables ecosystem/MSMEs",
+        "Tata Metaliks (region)",
+        "Jindal Steel & Power"
+      ]
+    },
+    {
+      "title": "Industry 4.0, AIoT, and Intelligent Systems",
+      "areas": [
+        "Industrial automation and cyber-physical systems",
+        "Digital twins and intelligent monitoring",
+        "AIoT, edge intelligence and smart sensing",
+        "Smart logistics and predictive maintenance"
+      ],
+      "linkages": [
+        "SAIL Digital/Industry 4.0 initiatives",
+        "TCS Kolkata",
+        "IBM / Tech Mahindra Kolkata",
+        "Matrics Fertilizer Industry",
+        "Regional manufacturing MSMEs",
+        "Coal India"
+      ]
+    },
+    {
+      "title": "Geo-Jute Textile",
+      "areas": [
+        "Nanomaterial-coated geojute for pavement, railway embankment, and mines' slope"
+      ],
+      "linkages": [
+        "Coal India",
+        "National Highway Authority of India",
+        "National Rural Development Agency",
+        "Pradhan Mantri Gram Sadak Yojana (PMGSY)",
+        "Ministry of Mines",
+        "Ministry of Textiles"
+      ]
+    },
+    {
+      "title": "Critical Minerals",
+      "areas": [
+        "Extraction of Critical Raw Materials (W, Co, and Mo) from Tungsten Carbide Scrap and roasted grade Molybdenum Oxide"
+      ],
+      "linkages": [
+        "Adani Enterprises (Kutch Copper Limited)"
+      ]
+    },
+    {
+      "title": "Green Steel",
+      "areas": [
+        "Decarbonization of the steel industry",
+        "Zero emission steel production",
+        "Sustainable steelmaking"
+      ],
+      "linkages": [
+        "Iron and steel plants",
+        "Ferro Alloys industry",
+        "Currently working with Durgapur Steel Plant and Shyam Ferro Alloys Durgapur"
+      ]
+    },
+    {
+      "title": "Semiconductor",
+      "areas": [
+        "VLSI and FPGA-based design, with emphasis on low-power, high-performance, secure architectures, testing, and validation"
+      ],
+      "linkages": [
+        "Semiconductor/ASIC/SoC design",
+        "FPGA-based prototyping",
+        "EDA tools, hardware testing and validation",
+        "Industry collaboration for chip/FPGA design, verification, prototyping, design-for-test (DFT), and hardware validation"
+      ]
+    }
+  ],
+  "technologyTranslation": {
+    "heading": "Technology Translation & Commercialization Initiatives",
+    "items": [
+      "Industry consultancy contract / sponsored research project / industry-sponsored research projects signed: 35 (AY 23-24), 35 (AY 24-25), 43 (AY 25-26)",
+      "Formally executed contracts related to technology deployment: 02 (AY 23-24), NIL (AY 24-25), NIL (AY 25-26)",
+      "License agreement / trademark agreement / design software agreement signed by NIT Durgapur: 06 (AY 23-24), 15 (AY 24-25), 25 (AY 25-26)"
+    ]
+  },
+  "innovationAchievements": {
+    "heading": "Innovation Activities, Programmes & Achievements",
+    "items": [
+      "Designed and taped out a fully digital FIFO and MODEM for forest event monitoring applications",
+      "Nanomaterial-coated Geo-jute has been prepared, and field implementation has been performed on a 2 km rural road"
+    ]
+  }
+}

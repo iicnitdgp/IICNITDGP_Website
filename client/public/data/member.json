@@ -8,7 +8,18 @@
     "extra": {
       "linkedin": "",
       "github": "",
-      "designation": "NIT Durgapur"
+      "designation": "Director NIT Durgapur"
+    }
+  },
+  {
+    "id": 2,
+    "name": "Prof. Pathik Kumbhakar",
+    "img": "https://nitdgp.ac.in/uploads/Pathik_Kumbhakar.jpg",
+    "type": "Advisor",
+    "extra": {
+      "linkedin": "",
+      "github": "",
+      "designation": "Dean R&C"
     }
   }
 

@@ -156,8 +156,8 @@ const Team = () => {
         return acc;
     }, {});
 
-    // Define the order for displaying team sections
-    const typeOrder = ['Faculty', 'Student Council', 'Student Volunteers', 'Advisor', 'Mentor'];
+    // Define the order for displaying team sections (Advisor first - Director NIT Durgapur)
+    const typeOrder = ['Advisor', 'Faculty', 'Student Council', 'Student Volunteers', 'Mentor'];
     
     // Get ordered types (predefined order first, then any remaining types)
     const orderedTypes = [
