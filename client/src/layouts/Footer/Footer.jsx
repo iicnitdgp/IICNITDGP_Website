@@ -55,16 +55,16 @@ const Footer = () => {
         {/* Column 2 */}
         <div className={styles.footerColumn}>
           <h3><GradientText text={"President"} /></h3>
-          <p className={styles.footerText}>Dr. Shibendu Shekhar Roy</p>
+          <p className={styles.footerText}>Prof. Hirok Chaudhuri</p>
           <p className={styles.footerText}>IIC NIT Durgapur</p>
-          <p className={styles.footerText}>Email : <a href="mailto:ssroy.me@nitdgp.ac.in" style={{ color: "var(--primary)", textDecoration: "none" }}>ssroy.me@nitdgp.ac.in</a></p>
+          <p className={styles.footerText}>Email : <a href="mailto:hchaudhuri.phy@nitdgp.ac.in" style={{ color: "var(--primary)", textDecoration: "none" }}>hchaudhuri.phy@nitdgp.ac.in</a></p>
         </div>
 
         {/* Column 3 */}
         <div className={styles.footerColumn}>
           <h3><GradientText text={"Contact Us"} /></h3>
           <p className={styles.footerText}>Email: <a href="mailto:iic@nitdgp.ac.in" style={{ color: "var(--primary)", textDecoration: "none" }}>iic@nitdgp.ac.in</a></p>
-          <p className={styles.footerText}>Phone: <a href="tel:+91 9434788150" style={{ color: "var(--primary)", textDecoration: "none" }}>+91 9434788150</a></p>
+          <p className={styles.footerText}>Phone: <a href="tel:+91 9434789019" style={{ color: "var(--primary)", textDecoration: "none" }}>+91 9434789019</a></p>
           <HashLink to="/audition" style={{ marginTop: "3rem" ,paddingTop: '2rem'}}>
             <button className={styles.joinBtn}>Join Us</button>
           </HashLink>
