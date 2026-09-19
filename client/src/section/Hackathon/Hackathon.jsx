@@ -12,7 +12,7 @@ const hackathons = [
     {
         name: "MSME Idea Hackathon",
         link: "https://my.msme.gov.in/inc/",
-        photo:"https://www.iimbginspire.com/wp-content/uploads/2022/03/MSME-IDEA-HACKATHON-Social-Media-Email-1-1024x1024.png"
+        photo:"https://res.cloudinary.com/fh8avphd/image/upload/v1789817575/msme_logo.png"
     },
     {
         name: "Smart Bengal Hackathon",
