@@ -49,6 +49,9 @@ const DesktopHeader = () => {
                 <li>
                     <Link to='/collaboration'>Collaboration</Link>
                 </li>
+                <li>
+                    <Link to='/research'>Research</Link>
+                </li>
                 {/* <li>
                     <Link to="/thinkinglab">Thinking Lab</Link>
                 </li> */}

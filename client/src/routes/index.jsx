@@ -12,6 +12,7 @@ import Profile from '../pages/Profile/Profile.jsx';
 import ProtectedRoute from '../component/ProtectedRoute/ProtectedRoute.jsx';
 import Activity from '../pages/Activity/Activity.jsx';
 import Collaboration from '../pages/Collaboration/Collaboration.jsx';
+import Research from '../pages/Research/Research.jsx';
 import Ai2Summit from '../pages/Ai2Summit/Ai2Summit.jsx'
 import Hackathon from '../pages/Hackathon/Hackathon.jsx';
 import Audition from '../components/Audition/audition.jsx';
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
             {
                 path: '/collaboration',
                 element: <Collaboration />
+            },
+            {
+                path: '/research',
+                element: <Research />
             },
             {
                 path: '/ai2summit',
