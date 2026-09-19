@@ -35,7 +35,7 @@ const Idea = () => {
         formState: { errors },
     } = useForm()
 
-    const onSubmit = async(data)=>{
+    const onSubmit = async (data) => {
         console.log("Form submitted:", data);
         setLoading(true);
         const response = await fetch(API.IdeaSubmission.url, {
@@ -61,9 +61,9 @@ const Idea = () => {
     return (
         <div className={styles.IdeaCard}>
             {/* <img src={image} alt={title} className={styles.IdeaCardImage} /> */}
-            <div className={styles.announcementSection}>
+            {/* <div className={styles.announcementSection}>
                 Nominations for Distinguished Alumni Award 2025  <a href="https://nomination.iicnitdgp.in" target="_blank" rel="noopener noreferrer">here</a>
-            </div>
+            </div> */}
 
             <div className={styles.IdeaCardContent}>
                 <div>Do you have new ideas? We welcome innovative suggestions and creative thoughts that can help us build a brighter future together. Share your ideas, and let's make an impact!</div>
@@ -160,7 +160,7 @@ const Idea = () => {
                                     {errors.teamLeaderEmail && <p className={styles.error}>This field is required</p>}
                                 </div>
 
-                                {loading?<FormSubmitLoading/>:<button type="submit" className={styles.submitBtn} style={{
+                                {loading ? <FormSubmitLoading /> : <button type="submit" className={styles.submitBtn} style={{
                                     background: "var(--primary)",
                                     // WebkitBackgroundClip: "text",
                                     // color: "transparent",

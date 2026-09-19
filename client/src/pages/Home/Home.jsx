@@ -8,6 +8,7 @@ import Hero from './../../section/Hero/Hero';
 import UpcomingEvent from '../../section/UpcomingEvent/UpcomingEvent';
 import Testimonial from '../../section/Testimonial/Testimonial';
 import EventApplication from '../../component/EventApplication/Event';
+import InnovationIdea from '../../component/InnovationIdea/Idea'
 
 const Home = () => {
   return (
@@ -15,11 +16,14 @@ const Home = () => {
 
       <Hero />
       {/* <EventApplication id='application'/> */}
-      <UpcomingEvent id="upcoming"/>
-      <About id="about"/>
+      <div style={{ textAlign: "center", marginTop: "5rem" }}>
+        <InnovationIdea />
+      </div>
+      <UpcomingEvent id="upcoming" />
+      <About id="about" />
       <Activity id="activity" />
       <Testimonial />
-      <NewsLetter id="contact"/>
+      <NewsLetter id="contact" />
       {/* <Check /> */}
     </div>
   )
