@@ -100,6 +100,7 @@ const Team = () => {
                             role: user.designation || user.type || 'Member', // Fallback to type or 'Member'
                             img: user.photo || 'https://via.placeholder.com/150', // Fallback image
                             type: user.type || 'Other', // Fallback to 'Other'
+                            rank: user.rank ?? null,
                             extra: {
                                 linkedin: user.extra?.linkedin || "",
                                 github: user.extra?.github || "",
@@ -222,6 +223,16 @@ const Team = () => {
                                                         {groupedMembers[type]
                                                             .slice() // avoid mutating original
                                                             .sort((a, b) => {
+                                                                // Faculty ranks are deliberately curated by admins, so honor them
+                                                                // directly instead of the designation-keyword heuristic below,
+                                                                // which is tuned for Student Council/Volunteer role names and
+                                                                // otherwise misreads "Website Coordinator"-style faculty titles.
+                                                                if (type === "Faculty") {
+                                                                    if (a.rank != null && b.rank != null) return a.rank - b.rank;
+                                                                    if (a.rank != null && b.rank == null) return -1;
+                                                                    if (a.rank == null && b.rank != null) return 1;
+                                                                }
+
                                                                 const [aIdx, aExact] = getDesignationOrder(a.extra?.designation || a.role || "", a.type || "");
                                                                 const [bIdx, bExact] = getDesignationOrder(b.extra?.designation || b.role || "", b.type || "");
                                                                 // Exact matches always come before keyword matches at the same index
