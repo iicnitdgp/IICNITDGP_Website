@@ -5,15 +5,15 @@
  * and custom indexes from the previous cloud MongoDB to the new local MongoDB.
  *
  * Usage:
- *   # Default (uses CLOUD_MONGO_URI / default Atlas URI and local mongodb://127.0.0.1:27017/iic-nitdgp)
+ *   # Default (reads CLOUD_MONGO_URI from .env.docker / server/.env)
  *   node server/scripts/migrateCloudToLocalMongo.js
  *
  *   # Via npm:
- *   npm --prefix server run migrate:cloud-to-local
+ *   npm --prefix server run migrate:db
  *
  *   # With custom source/target or dry-run:
  *   node server/scripts/migrateCloudToLocalMongo.js --dry-run
- *   node server/scripts/migrateCloudToLocalMongo.js --source="mongodb+srv://..." --target="mongodb://127.0.0.1:27017/iic-nitdgp"
+ *   node server/scripts/migrateCloudToLocalMongo.js --source="mongodb+srv://..." --target="mongodb://mongodb:27017/iic-nitdgp"
  *   node server/scripts/migrateCloudToLocalMongo.js --no-drop
  */
 
@@ -39,22 +39,44 @@ const DEFAULT_SOURCE_URI =
   process.env.CLOUD_MONGO_URI ||
   process.env.SOURCE_MONGO_URI;
 
-const DEFAULT_TARGET_URI =
-  process.env.TARGET_MONGO_URI ||
-  (process.env.MONGO_URI && !process.env.MONGO_URI.includes('mongodb+srv://') && !process.env.MONGO_URI.includes('mongodb:27017')
-    ? process.env.MONGO_URI
-    : 'mongodb://127.0.0.1:27017/iic-nitdgp');
-
 const SOURCE_URI = args.source || DEFAULT_SOURCE_URI;
-let TARGET_URI = args.target || DEFAULT_TARGET_URI;
+
+if (!SOURCE_URI) {
+  console.error('\n❌ Error: Cloud MongoDB URI is not configured.');
+  console.error('Please set CLOUD_MONGO_URI in your .env.docker or pass --source="<CLOUD_URI>".\n');
+  process.exit(1);
+}
 
 const fs = require('fs');
 const isInsideDocker = fs.existsSync('/.dockerenv');
 
-// If target URI uses docker internal hostname 'mongodb' while running on host, replace with 127.0.0.1
-if (!isInsideDocker && (TARGET_URI.includes('@mongodb:') || TARGET_URI.startsWith('mongodb://mongodb:'))) {
-  console.log("ℹ Note: Running on host machine. Remapping 'mongodb' docker service host to '127.0.0.1'.");
-  TARGET_URI = TARGET_URI.replace('mongodb://mongodb:', 'mongodb://127.0.0.1:');
+const DEFAULT_TARGET_URI = isInsideDocker
+  ? 'mongodb://mongodb:27017/iic-nitdgp'
+  : 'mongodb://127.0.0.1:27017/iic-nitdgp';
+
+let TARGET_URI = args.target || process.env.TARGET_MONGO_URI;
+
+if (!TARGET_URI) {
+  if (process.env.MONGO_URI && !process.env.MONGO_URI.includes('mongodb+srv://')) {
+    TARGET_URI = process.env.MONGO_URI;
+  } else {
+    TARGET_URI = DEFAULT_TARGET_URI;
+  }
+}
+
+// Automatic environment adaptation:
+if (isInsideDocker) {
+  // Inside container: localhost/127.0.0.1 is the container itself, remap to docker service name 'mongodb'
+  if (TARGET_URI.includes('localhost:27017') || TARGET_URI.includes('127.0.0.1:27017')) {
+    console.log("ℹ Note: Running inside Docker container. Remapping localhost/127.0.0.1 to 'mongodb' service.");
+    TARGET_URI = TARGET_URI.replace('localhost:27017', 'mongodb:27017').replace('127.0.0.1:27017', 'mongodb:27017');
+  }
+} else {
+  // Running on host machine: docker service name 'mongodb' cannot resolve on host, remap to 127.0.0.1
+  if (TARGET_URI.includes('@mongodb:') || TARGET_URI.startsWith('mongodb://mongodb:')) {
+    console.log("ℹ Note: Running on host machine. Remapping 'mongodb' docker service host to '127.0.0.1'.");
+    TARGET_URI = TARGET_URI.replace('mongodb://mongodb:', 'mongodb://127.0.0.1:');
+  }
 }
 
 const BATCH_SIZE = parseInt(args['batch-size'] || args.batchSize || '500', 10);
