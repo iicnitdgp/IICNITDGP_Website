@@ -13,6 +13,15 @@ services:
       - redis-data:/data
     restart: unless-stopped
 
+  mongodb:
+    image: mongo:7.0
+    container_name: iic-mongodb
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
   server:
     build:
       context: ./server
@@ -25,6 +34,7 @@ services:
       - uploads-data:/app/public/uploads
     depends_on:
       - redis
+      - mongodb
     restart: unless-stopped
 
   client:
@@ -43,3 +53,4 @@ services:
 volumes:
   redis-data:
   uploads-data:
+  mongo-data:
