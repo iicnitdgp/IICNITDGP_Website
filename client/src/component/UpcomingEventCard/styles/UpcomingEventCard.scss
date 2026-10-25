@@ -1,0 +1,72 @@
+.recent-event-overlay {
+  --recent-event-gutter: clamp(0.5rem, 3vw, 2rem);
+
+  box-sizing: border-box;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: var(--recent-event-gutter);
+  background: rgba(0, 0, 0, 0.78);
+}
+
+.recent-event-card {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  max-height: calc(100vh - var(--recent-event-gutter) - var(--recent-event-gutter));
+  box-sizing: border-box;
+  padding: 0.35rem;
+  border: 1px solid rgb(143, 139, 139);
+  border-radius: 0.5rem;
+  background: rgb(46, 44, 44);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.55);
+
+  img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(100vh - var(--recent-event-gutter) - var(--recent-event-gutter) - 1rem);
+    object-fit: contain;
+    border-radius: 0.25rem;
+  }
+}
+
+.recent-event-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  display: grid;
+  width: 2.5rem;
+  height: 2.5rem;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 50%;
+  background: rgba(46, 44, 44, 0.9);
+  color: #fff;
+  font-size: 1.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@supports (height: 100dvh) {
+  .recent-event-card {
+    max-height: calc(100dvh - var(--recent-event-gutter) - var(--recent-event-gutter));
+
+    img {
+      max-height: calc(100dvh - var(--recent-event-gutter) - var(--recent-event-gutter) - 1rem);
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .recent-event-close {
+    top: 0.55rem;
+    right: 0.55rem;
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+}

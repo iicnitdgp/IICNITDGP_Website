@@ -98,6 +98,13 @@ const Api={
         url:`${BASE_URL}/webinars/:id`,
         method:"DELETE"
     },
+
+    //find upcoming latest event
+    UpcomingEvent:{
+        url:`${BASE_URL}/upcomingwebinar`,
+        method:"GET"
+    }
+    ,
     CarouselImageFetch:{
         url:`${BASE_URL}/carousel-images`,
         method:"GET"
