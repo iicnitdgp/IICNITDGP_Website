@@ -387,6 +387,26 @@
   }
 }
 
+/* Carousel Delete Button */
+.carouselDeleteButton {
+  background: linear-gradient(135deg, #ec4899, #db2777);
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: linear-gradient(135deg, #db2777, #be185d);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(236, 72, 153, 0.4);
+  }
+}
+
+
+
 /* Gallery Upload Button */
 .galleryUploadButton {
   background: linear-gradient(135deg, #f59e0b, #d97706);

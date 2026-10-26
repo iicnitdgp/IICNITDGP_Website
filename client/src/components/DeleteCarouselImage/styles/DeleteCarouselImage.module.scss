@@ -1,0 +1,336 @@
+@import "../../../assets/styles/Global.scss";
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.eventsManagerModal {
+  background: $bg-color;
+  border-radius: 1rem;
+  width: 90vw;
+  max-width: 800px;
+  max-height: 80vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $border-color;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.modalHeader {
+  background: var(--primary);
+  color: white;
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-shrink: 0;
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  flex-shrink: 0;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.modalContent {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary) transparent;
+}
+
+.modalContent::-webkit-scrollbar {
+  width: 6px;
+}
+
+.modalContent::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+.loadingContainer {
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+
+  p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.loader {
+  width: 36px;
+  height: 36px;
+  border: 4px solid rgba(255, 255, 255, 0.15);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.eventsList {
+  padding: 1rem;
+}
+
+.eventItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  border: 1px solid $border-color;
+  transition: background-color 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.eventInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.eventImageContainer {
+  flex-shrink: 0;
+}
+
+.eventImage {
+  display: block;
+  width: 80px;
+  height: 80px;
+  border-radius: 0.5rem;
+  object-fit: cover;
+  border: 2px solid $border-color;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.eventDetails {
+  flex: 1;
+  min-width: 0;
+
+  h4 {
+    color: white;
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  p {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    overflow-wrap: anywhere;
+  }
+}
+
+.eventMeta {
+  font-size: 0.8rem !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.eventActions {
+  display: flex;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.deleteEventButton {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+
+  &:hover:not(:disabled) {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(239, 68, 68, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+.noEventsContainer {
+  padding: 3rem 2rem;
+  text-align: center;
+
+  p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 1.1rem;
+    margin: 0;
+  }
+}
+
+.errorContainer {
+  margin: 1rem;
+  padding: 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.5);
+  border-radius: 0.5rem;
+
+  p {
+    color: #fca5a5;
+    margin: 0 0 0.75rem;
+    overflow-wrap: anywhere;
+  }
+}
+
+.retryButton {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .eventsManagerModal {
+    width: 95vw;
+    max-height: 90vh;
+  }
+
+  .modalHeader {
+    padding: 1rem 1.25rem;
+
+    h2 {
+      font-size: 1.25rem;
+    }
+  }
+
+  .eventItem {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .eventInfo {
+    width: 100%;
+  }
+
+  .eventActions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .eventImage {
+    width: 70px;
+    height: 70px;
+  }
+}
+
+@media (max-width: 400px) {
+  .modalOverlay {
+    padding: 0.5rem;
+  }
+
+  .eventsManagerModal {
+    width: 100%;
+    max-height: 95vh;
+  }
+
+  .eventsList {
+    padding: 0.5rem;
+  }
+
+  .eventItem {
+    padding: 0.75rem;
+  }
+
+  .eventInfo {
+    gap: 0.75rem;
+  }
+
+  .eventImage {
+    width: 60px;
+    height: 60px;
+  }
+
+  .deleteEventButton {
+    padding: 0.5rem 0.8rem;
+  }
+}

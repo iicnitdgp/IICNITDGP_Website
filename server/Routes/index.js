@@ -17,6 +17,7 @@ const authRoutes = require('./auth')
 const UserController = require('../Controller/User')
 const authMiddleware = require('../middleware/auth');
 const optionalAuth = require('../middleware/optionalAuth');
+const upcomingWebinar = require('../Controller/upcomingWebinar')
 
 // Authentication routes
 router.use('/auth', authRoutes);
@@ -45,6 +46,7 @@ router.get('/admin/innovations', authMiddleware, IdeaController.getAllInnovation
 //Carousel Image
 router.get('/carousel-images', CarouselImage.getCarouselImages);
 router.post('/carousel-images', authMiddleware, CarouselImage.submitCarouselImages);
+router.delete('/carousel-image/delete/:id',authMiddleware,CarouselImage.deleteCarouselImages);
 
 //Gallery
 router.get('/gallery', Gallery.getGallery);
@@ -57,6 +59,9 @@ router.get('/webinars/categories', WebinarController.getWebinarCategories);
 router.get('/webinars/:id', WebinarController.getWebinarById);
 router.put('/webinars/:id', authMiddleware, WebinarController.updateWebinar);
 router.delete('/webinars/:id', authMiddleware, WebinarController.deleteWebinar);
+
+//upcoming webinar routes
+router.get('/upcomingwebinar',upcomingWebinar);
 
 // Dedicated event module
 router.get('/events', optionalAuth, EventController.getEvents);

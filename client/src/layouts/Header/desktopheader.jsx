@@ -41,11 +41,11 @@ const DesktopHeader = () => {
                     <Link to="/guidelines">Guidelines</Link>
                 </li>
                 <li>
-                    <Link to="/activity">Activity</Link>
+                    <Link to="/events">Events</Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link to="/hackathon">Hackathon</Link>
-                </li>
+                </li> */}
                 <li>
                     <Link to='/collaboration'>Collaboration</Link>
                 </li>
@@ -61,9 +61,9 @@ const DesktopHeader = () => {
                 <li>
                     <Link to="/gallery">Gallery</Link>
                 </li>
-                <li>
+                {/* <li>
                     <Link to="/ai2summit">AI2 Summit</Link>
-                </li>
+                </li> */}
             </ul>
         </div>
     );

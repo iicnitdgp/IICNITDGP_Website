@@ -288,6 +288,25 @@ class ApiService {
     throw new Error(data.message || 'Failed to delete event');
   }
 
+async deleteCarouselImage(imageId) {
+  const response = await this.request(
+    `/carousel-image/delete/${imageId}`,
+    {
+      method: 'DELETE',
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      data.message || 'Failed to delete carousel image'
+    );
+  }
+
+  return data;
+}
+
   async getWebinarCategories() {
     return ['workshop', 'seminar', 'conference', 'webinar', 'hackathon', 'competition', 'other'];
   }

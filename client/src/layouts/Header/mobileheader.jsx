@@ -32,12 +32,12 @@ const MobileHeader = () => {
                     <li><Link to="/faq">FAQ</Link></li>
                     {/* <li><Link to="/program">Program</Link></li> */}
                     <li><Link to="/guidelines">Guidelines</Link></li>
-                    <li><Link to="/activity">Activity</Link></li>
-                    <li><Link to="/hackathon">Hackathon</Link></li>
+                    <li><Link to="/events">Events</Link></li>
+                    {/* <li><Link to="/hackathon">Hackathon</Link></li> */}
                     <li><Link to='/collaboration'>Collaboration</Link></li>
                     <li><Link to='/research'>Research</Link></li>
                     <li><Link to='/gallery'>Gallery</Link></li>
-                    <li><Link to='/ai2summit'>AI2 Summit</Link></li>
+                    {/* <li><Link to='/ai2summit'>AI2 Summit</Link></li> */}
                     
                     {/* <li><Link to="/thinkinglab">Thinking Lab</Link></li> */}
                     {/* <li><Link to="/asokesen">AsokeSen</Link></li>

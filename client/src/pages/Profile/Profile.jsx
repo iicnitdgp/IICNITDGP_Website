@@ -17,6 +17,7 @@ import GalleryImageUpload from '../../components/GalleryImageUpload/GalleryImage
 import ResetPassword from '../../components/ResetPassword/ResetPassword';
 import styles from './styles/profile.module.scss';
 import GradientText from '../../component/Core/TextStyle';
+import DeleteCarouselImage from '../../components/DeleteCarouselImage/DeleteCarouselImage';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ const Profile = () => {
   const [isInnovationSubmissionsOpen, setIsInnovationSubmissionsOpen] = useState(false);
   const [isAuditionManagementOpen, setIsAuditionManagementOpen] = useState(false);
   const [isCarouselUploadOpen, setIsCarouselUploadOpen] = useState(false);
+  const [isCarouselDeleteOpen, setIsCarouselDeleteOpen] = useState(false);
   const [isGalleryUploadOpen, setIsGalleryUploadOpen] = useState(false);
   const [isResetPasswordOpen, setIsResetPasswordOpen] = useState(false);
   const [isEventRegistrationManagementOpen, setIsEventRegistrationManagementOpen] = useState(false);
@@ -341,6 +343,12 @@ const Profile = () => {
                   Upload Carousel Image
                 </button>
                 <button 
+                  className={styles.carouselDeleteButton}
+                  onClick={() => setIsCarouselDeleteOpen(true)}
+                >
+                  Delete Carousel Image
+                </button>
+                <button 
                   className={styles.galleryUploadButton}
                   onClick={() => setIsGalleryUploadOpen(true)}
                 >
@@ -398,6 +406,11 @@ const Profile = () => {
             onClose={() => setIsCarouselUploadOpen(false)}
             onImageAdded={handleCarouselImageAdded}
           />
+
+          <DeleteCarouselImage
+           isOpen = {isCarouselDeleteOpen}
+           onClose={()=>setIsCarouselDeleteOpen(false)}
+          ></DeleteCarouselImage>
 
           <GalleryImageUpload
             isOpen={isGalleryUploadOpen}

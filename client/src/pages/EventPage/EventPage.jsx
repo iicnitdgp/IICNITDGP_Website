@@ -2,9 +2,10 @@ import React from 'react';
 import Internship from '../../section/Internship/Internship';
 import IdeathonEvent from '../../section/IdeathonEvent/IdeathonEvent';
 import EventSection from '../../section/Event/event';
-import styles from './styles/Activity.module.scss';
-
-const Activity = () => {
+import styles from './styles/EventPage.module.scss';
+import Hackathonsec from '../../section/Hackathon/Hackathon'
+import Ai2Summit from '../Ai2Summit/Ai2Summit';
+const EventPage = () => {
     const [activeTab, setActiveTab] = React.useState('Events');
 
     return (
@@ -35,21 +36,28 @@ const Activity = () => {
                     Internship
                 </button>
                 <button
-                    className={activeTab === 'IdeathonEvent' ? styles.active : ''}
-                    onClick={() => setActiveTab('IdeathonEvent')}
+                    className={activeTab === 'Hackathon' ? styles.active : ''}
+                    onClick={() => setActiveTab('Hackathon')}
                 >
-                    Ideathon Event
+                    Hackathon
+                </button>
+                <button
+                    className={activeTab === 'AI2_Summit' ? styles.active : ''}
+                    onClick={() => setActiveTab('AI2_Summit')}
+                >
+                    Ai2 Summit
                 </button>
 
             </div>
 
             <div className={styles.tabContent}>
                 {activeTab === 'Internship' && <Internship />}
-                {activeTab === 'IdeathonEvent' && <IdeathonEvent />}
+                {activeTab === 'Hackathon' && <Hackathonsec/>}
                 {activeTab === 'Events' && <EventSection />}
+                {activeTab === 'AI2_Summit' && <Ai2Summit/>}
             </div>
         </div>
     );
 };
 
-export default Activity;
+export default EventPage;

@@ -10,7 +10,7 @@ import Gallery from '../pages/Gallery/Gallery.jsx';
 import Login from '../authentication/Login/Login.jsx';
 import Profile from '../pages/Profile/Profile.jsx';
 import ProtectedRoute from '../component/ProtectedRoute/ProtectedRoute.jsx';
-import Activity from '../pages/Activity/Activity.jsx';
+import EventPage from '../pages/EventPage/EventPage.jsx';
 import Collaboration from '../pages/Collaboration/Collaboration.jsx';
 import Research from '../pages/Research/Research.jsx';
 import Ai2Summit from '../pages/Ai2Summit/Ai2Summit.jsx'
@@ -46,8 +46,8 @@ const router = createBrowserRouter([
                 element: <Gallery />
             },
             {
-                path: '/activity',
-                element: <Activity />
+                path: '/events',
+                element: <EventPage />
             },
             {
                 path: '/collaboration',
